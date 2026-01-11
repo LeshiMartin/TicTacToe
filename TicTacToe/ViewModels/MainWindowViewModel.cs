@@ -64,6 +64,8 @@ public partial class MainWindowViewModel : ViewModelBase
     private void RandomSelection()
     {
         var unselected = Tiles.Where(x => !x.IsSelected).ToList();
+        if(!unselected.Any())
+            return;
         var rnd = Random.Shared.Next(0, unselected.Count);
         unselected[rnd].IsSelected = true;
         unselected[rnd].Text = "O";
@@ -77,8 +79,8 @@ public partial class MainWindowViewModel : ViewModelBase
             return "User";
         }
 
-        var ySelected = Tiles.Where(x => x.Text.Equals("y", StringComparison.InvariantCultureIgnoreCase)).ToList();
-        return CheckForWinner(ySelected) ? "Computer" : string.Empty;
+        var oSelected = Tiles.Where(x => x.Text.Equals("o", StringComparison.InvariantCultureIgnoreCase)).ToList();
+        return CheckForWinner(oSelected) ? "Computer" : string.Empty;
     }
 
     private bool CheckForWinner(IReadOnlyList<TicTacToeTile> tiles)
