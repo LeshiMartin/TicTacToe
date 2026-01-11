@@ -1,0 +1,86 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:TicTacToe.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="580"
+        x:Class="TicTacToe.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Background="White"
+        Title="TicTacToe">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="Border.ticTacToe Button">
+            <Setter Property="Height" Value="150" />
+            <Setter Property="Width" Value="150" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="BorderBrush" Value="Black" />
+        </Style>
+        <Style Selector="Border.ticTacToe Button>ContentPresenter">
+            <Setter Property="Height" Value="145" />
+            <Setter Property="Width" Value="145" />
+        </Style>
+        <Style Selector="ContentPresenter">
+            <Setter Property="VerticalAlignment" Value="Top" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Margin" Value="3" />
+        </Style>
+        <Style Selector="Button:pointerover>ContentPresenter">
+            <Setter Property="BorderBrush" Value="Black" />
+        </Style>
+    </Window.Styles>
+
+    <StackPanel Name="Main">
+        <StackPanel Orientation="Horizontal">
+            <Label Foreground="Black"
+                   HorizontalAlignment="Center">
+                Tic Tac Toe
+            </Label>
+            <Button Foreground="Black"
+                    BorderThickness="1"
+                    BorderBrush="Black"
+                    Content="Restart"
+                    Command="{Binding RestartCommand}">
+            </Button>
+
+            <Label Foreground="Black" Content="Winner Is:" />
+            <Label Foreground="Black" Content="{Binding Winner}" />
+        </StackPanel>
+        <Border
+            Classes="ticTacToe"
+            Padding="5"
+            Width="480" CornerRadius="4" BorderBrush="Black" BorderThickness="1">
+            <ItemsControl ItemsSource="{Binding Tiles}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <Grid VerticalAlignment="Top" HorizontalAlignment="Left"></Grid>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="vm:TicTacToeTile">
+                        <Button
+                            Command="{Binding $parent[StackPanel].DataContext.PressCommand}"
+                            CommandParameter="{Binding .}"
+                            Margin="{Binding Margin}"
+                            Classes="ticTacToeTile">
+                            <TextBlock VerticalAlignment="Center"
+                                       Foreground="Black"
+                                       FontSize="35"
+                                       FontWeight="DemiBold"
+                                       HorizontalAlignment="Center"
+                                       Text="{Binding Text}">
+                            </TextBlock>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </Border>
+    </StackPanel>
+
+</Window>
